@@ -1,0 +1,6 @@
+version: 2.0
+shards:
+  protobuf:
+    git: https://github.com/jeromegn/protobuf.cr.git
+    version: 2.3.1
+

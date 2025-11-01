@@ -1,0 +1,6 @@
+name: crystal-project
+version: 0.0.1
+
+dependencies:
+  protobuf:
+    github: jeromegn/protobuf.cr
