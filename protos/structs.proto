@@ -1,0 +1,442 @@
+syntax = "proto3";
+
+package crystal_project;
+
+
+message BinaryValue {
+  bool IsNull = 1;
+  repeated bytes Array = 2;
+  bytes One = 3;
+}
+
+message RpcRequest {
+  string Id = 1;
+  string ServiceName = 2;
+  string MethodName = 3;
+  repeated BinaryValue Params = 4;
+}
+
+message Exception {
+  int64 Id = 1;
+  int32 Code = 2;
+  map<string, string> Params = 3;
+}
+
+message RpcResponse {
+  string Id = 1;
+  Exception Exception = 2;
+  BinaryValue Return = 3;
+}
+
+message EventResponse {
+  string ListenerName = 1;
+  string EventName = 2;
+  repeated BinaryValue Params = 3;
+}
+
+message ResponseMessage {
+  RpcResponse RpcResponse = 1;
+  EventResponse EventResponse = 2;
+}
+
+message ProtoBoolean {
+  bool Value = 1;
+}
+
+message BooleanArray {
+  repeated bool Value = 1;
+}
+
+message Byte {
+  bytes Value = 1;
+}
+
+message ByteArray {
+  repeated bytes Value = 1;
+}
+
+message Double {
+  double Value = 1;
+}
+
+message DoubleArray {
+  repeated double Value = 1;
+}
+
+message Enum {
+  int32 Value = 1;
+}
+
+message ProtoFloat {
+  float Value = 1;
+}
+
+message FloatArray {
+  repeated float Value = 1;
+}
+
+message Integer {
+  int32 Value = 1;
+}
+
+message IntegerArray {
+  repeated int32 Value = 1;
+}
+
+message Long {
+  int64 Value = 1;
+}
+
+message LongArray {
+  repeated int64 Value = 1;
+}
+
+message ProtoString {
+  string Value = 1;
+}
+
+message ProtoStringArray {
+  repeated string Value = 1;
+}
+
+enum Platform {
+  Unknown = 0;
+  Android = 1;
+  Ios = 2;
+}
+
+message AuthGoogle {
+  string GameId = 1;
+  string GameVersion = 2;
+  Platform Platform = 3;
+  string AuthCode = 4;
+  string Locale = 5;
+}
+
+message Handshake {
+  string Ticket = 1;
+}
+
+enum OnlineStatus {
+  StateOffline = 0;
+  StateOnline = 1;
+  StateBusy = 2;
+  StateAway = 3;
+  StateSnooze = 4;
+  StateLookingToTrade = 5;
+  StateLookingToPlay = 6;
+}
+
+enum PropertyType {
+  Int = 0;
+  Float = 1;
+  String = 2;
+  Boolean = 3;
+}
+
+message Attribute {
+  PropertyType Type = 1;
+  int32 Int = 2;
+  float Float = 3;
+  string String = 4;
+  bool Boolean = 5;
+}
+
+message Attributes {
+  map<string, Attribute> Map = 1;
+}
+
+message PlayerStatus {
+  string PlayerId = 1;
+  PlayInGame PlayInGame = 2;
+  OnlineStatus OnlineStatus = 3;
+}
+
+message PhotonGame {
+  string Region = 1;
+  string RoomId = 2;
+  string AppVersion = 3;
+  map<string, string> CustomProperties = 4;
+}
+
+message PlayInGame {
+  string GameCode = 1;
+  string GameVersion = 2;
+  string LobbyId = 3;
+  PhotonGame PhotonGame = 4;
+}
+
+message Player {
+  string Id = 1;
+  string Uid = 2;
+  string Name = 3;
+  string AvatarId = 4;
+  int32 TimeInGame = 5;
+  PlayerStatus PlayerStatus = 6;
+  int64 LogoutDate = 7;
+  int64 RegistrationDate = 8;
+  Attributes Attributes = 9;
+}
+
+message Achievement {
+  string Name = 1;
+  string DisplayName = 2;
+  string DisplayDescription = 3;
+  int64 UnlockTime = 4;
+  bool Achieved = 5;
+  bytes Icon = 6;
+  bool Hidden = 7;
+}
+
+enum StatDefType {
+  STATDEF_INT = 0;
+  STATDEF_FLOAT = 1;
+  STATDEF_AVGRATE = 2;
+}
+
+message PlayerStat {
+  string Name = 1;
+  int32 IntValue = 2;
+  float FloatValue = 3;
+  float Window = 4;
+  StatDefType Type = 5;
+}
+
+enum RelationshipStatus {
+  None = 0;
+  Blocked = 1;
+  RequestRecipient = 2;
+  Friend = 3;
+  RequestInitiator = 4;
+  Ignored = 5;
+}
+
+message Stats {
+  repeated PlayerStat Stat = 1;
+  repeated Achievement Achievement = 2;
+}
+
+message PlayerFriend {
+  Player Player = 1;
+  RelationshipStatus RelationshipStatus = 2;
+  int64 LastRelationshipUpdate = 3;
+}
+
+enum LobbyPlayerType {
+  Any = 0;
+  Member = 1;
+  Spectator = 2;
+}
+
+message LobbyInvite {
+  string LobbyId = 1;
+  PlayerFriend InviteCreator = 2;
+  int64 Date = 3;
+  LobbyPlayerType PlayerType = 4;
+}
+
+message CurrencyAmount {
+  int32 CurrencyId = 1;
+  int32 OldValue = 2;
+  float Value = 3;
+}
+
+enum ClanMemberRolePermission {
+  ChangeClanSettings = 0;
+  AcceptMember = 1;
+  InviteMember = 2;
+  KickMemberLess = 3;
+  KickMemberEqual = 4;
+  AssignRoleLess = 5;
+  AssignRoleEqual = 6;
+  CreateClanBattle = 7;
+  JoinClanBattle = 8;
+  UpgradeClanMembersCount = 9;
+}
+
+message ClanMemberRole {
+  int32 Id = 1;
+  string Name = 2;
+  int32 Level = 3;
+  string Descripption = 4;
+  repeated ClanMemberRolePermission Permissions = 5;
+}
+
+message ClanSettings {
+  int32 InitialMembersCount = 1;
+  int32 MembersCountLimit = 2;
+  CurrencyAmount MembercCountUpgradeCost = 3;
+  CurrencyAmount ChangeClanNameOrTagCost = 4;
+  CurrencyAmount ClanCreateCost = 5;
+}
+
+
+message InventoryItemDefinition {
+  int32 Id = 1;
+  string DisplayName = 2;
+  map<string, string> Properties = 3;
+  repeated CurrencyAmount BuyPrice = 4;
+  repeated CurrencyAmount SellPrice = 5;
+  bool CanBeTraded = 6;
+}
+
+enum SettingType {
+  SETTING_STRING = 0;
+  SETTING_INTEGER = 1;
+  SETTING_FLOAT = 2;
+  SETTING_BOOL = 3;
+}
+
+message Storage {
+  string Filename = 1;
+  bytes File = 2;
+}
+
+message GameSetting {
+  string Key = 1;
+  string Value = 2;
+  int32 IntValue = 3;
+  float FloatValue = 4;
+  bool BoolValue = 5;
+  SettingType Type = 6;
+}
+
+message ChatUser {
+  PlayerFriend Player = 1;
+  Group Group = 2;
+  string Message = 3;
+  int64 Timestamp = 4;
+  int32 UnreadMsgsCount = 5;
+}
+
+message Group {
+  string Id = 1;
+  string Name = 2;
+  string AvatarId = 3;
+  repeated Player Players = 4;
+}
+
+message MarketplaceSettings {
+  float CommissionPercent = 1;
+  float MinCommission = 2;
+  int32 CurrencyId = 3;
+  bool Enabled = 4;
+}
+
+message PlayerInventory {
+  repeated CurrencyAmount Currencies = 1;
+  repeated InventoryItem InventoryItems = 2;
+}
+
+message InventoryItemProperty {
+  PropertyType Type = 1;
+  int32 IntValue = 2;
+  float FloatValue = 3;
+  string StringValue = 4;
+  bool BooleanValue = 5;
+}
+
+message InventoryItem {
+  int32 Id = 1;
+  int32 ItemDefinitionId = 2;
+  int32 Quantity = 3;
+  int32 Flags = 4;
+  int64 Date = 5;
+  map<string, InventoryItemProperty> Properties = 6;
+}
+
+enum PropertySetByType {
+  gameServer = 0;
+  OfficialGameServer = 1;
+  Client = 2;
+}
+
+message InventoryItemPropertyDefinition {
+  string Name = 1;
+  PropertyType PropertyType = 2;
+  bool SaveInTrade = 3;
+  PropertySetByType SetByType = 4;
+}
+
+message InventoryItemPropertyDefinitions {
+  int32 ItemDefinitionId = 1;
+  map<string, InventoryItemPropertyDefinition> Definitions = 2;
+}
+
+message InventoryItemAmount {
+  int32 InventoryItemDefinitionId = 1;
+  int32 Value = 2;
+}
+
+message ExchangeEntity {
+  repeated InventoryItemAmount Items = 1;
+  repeated CurrencyAmount Currencies = 2;
+}
+
+message RecipeInfo {
+  string Recipe = 1;
+  repeated ExchangeEntity Entities = 2;
+}
+
+message RewardInfo {
+  repeated InventoryItemAmount Items = 1;
+  repeated CurrencyAmount Currencies = 2;
+  repeated RecipeInfo Recipes = 3;
+}
+
+message GamePassLevel {
+  int32 Level = 1;
+  int32 MinPoints = 2;
+  RewardInfo Reward = 3;
+}
+
+message GamePass {
+  string Id = 1;
+  string Code = 2;
+  int32 KeyItemDefinitionId = 3;
+  repeated GamePassLevel Levels = 4;
+  int32 CurrentLevel = 5;
+}
+
+message CurrentGameEvent {
+  string Id = 1;
+  string Code = 2;
+  int64 DateSince = 3;
+  int64 DateUntil = 4;
+  int32 DurationDays = 5;
+  repeated GamePass GamePasses = 6;
+  int32 Points = 7;
+  int32 CurrentDay = 8;
+}
+
+message GetCurrentGameEventsResponse {
+  repeated CurrentGameEvent GameEvents = 1;
+}
+
+message GetCurrentChallengesResponse {
+  repeated CurrentChallenge Challenges = 1;
+}
+
+message LocalizedTitle {
+  string Name = 1;
+  string Description = 2;
+}
+
+message DayRange {
+  int32 From = 1;
+  int32 To = 2;
+}
+
+message CurrentChallenge {
+  string GameEventChallengeId = 1;
+  string Code = 2;
+  int32 KeyItemDefinitionId = 3;
+  LocalizedTitle LocalizedTitle = 4;
+  string Action = 5;
+  DayRange DayRange = 6;
+  string Type = 7;
+  int32 EventPoints = 8;
+  int32 TargetPoints = 9;
+  int32 CurrentPoints = 10;
+  RewardInfo Reward = 11;
+}
