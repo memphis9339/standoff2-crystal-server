@@ -1,6 +1,8 @@
 # standoff2-crystal-server
 The world first open-source Standoff 2 server written in Crystal with Protobuf
 
+> "Language for humans and computers"
+
 ## About
 This project is a reverse-engineered implementation of the Standoff 2 game server, built from scratch using the Crystal programming language and Protocol Buffers for efficient network communication. It aims to provide an open-source alternative for understanding and hosting private Standoff 2 game servers.
 
